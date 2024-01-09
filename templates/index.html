@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stable Bud Image Generator</title>
+</head>
+<body>
+    <h1>Stable Bud Image Generator</h1>
+    <form id="imageForm" action="/generate" method="post">
+        <label for="prompt">Enter Prompt:</label><br>
+        <input type="text" id="prompt" name="prompt"><br>
+        <label for="negative_prompt">Enter Negative Prompt:</label><br>
+        <input type="text" id="negative_prompt" name="negative_prompt"><br>
+        <label for="height">Image Height:</label><br>
+        <input type="text" id="height" name="height"><br>
+        <label for="width">Image Width:</label><br>
+        <input type="text" id="width" name="width"><br><br>
+        <input type="button" onclick="generateImages()" value="Generate">
+    </form>
+
+    <div>
+        <h2>Generated Images</h2>
+        <div class="image-container">
+            <div class="image-box">
+                <img id="img1" src="" alt="Generated Image 1">
+                <a id="download1" href="" download="generated_image_1.png">Download Image 1</a>
+            </div>
+            <div class="image-box">
+                <img id="img2" src="" alt="Generated Image 2">
+                <a id="download2" href="" download="generated_image_2.png">Download Image 2</a>
+            </div>
+            <div class="image-box">
+                <img id="img3" src="" alt="Generated Image 3">
+                <a id="download3" href="" download="generated_image_3.png">Download Image 3</a>
+            </div>
+            <div class="image-box">
+                <img id="img4" src="" alt="Generated Image 4">
+                <a id="download4" href="" download="generated_image_4.png">Download Image 4</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function generateImages() {
+            const form = document.getElementById('imageForm');
+            const formData = new FormData(form);
+
+            fetch('/generate', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('img1').src = `data:image/png;base64,${data.img1}`;
+                document.getElementById('download1').href = `data:image/png;base64,${data.img1}`;
+                document.getElementById('img2').src = `data:image/png;base64,${data.img2}`;
+                document.getElementById('download2').href = `data:image/png;base64,${data.img2}`;
+                document.getElementById('img3').src = `data:image/png;base64,${data.img3}`;
+                document.getElementById('download3').href = `data:image/png;base64,${data.img3}`;
+                document.getElementById('img4').src = `data:image/png;base64,${data.img4}`;
+                document.getElementById('download4').href = `data:image/png;base64,${data.img4}`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
